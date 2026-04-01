@@ -56,7 +56,8 @@ std::vector<std::string> get_port_list(jack_client_t *client, unsigned long flag
     return result;
 }
 
-// gotta figure out what the ins of this function mean still
+// param 1 is the actual prompt as a string, the second param is the ports as the vector of strings
+// from get_port_list.
 int prompt_choice(const std::string &prompt, const std::vector<std::string> &options) {
     // printf expects a const char*, not a std::string. c_str gives a pointer to the character
     // buffer for the std::string that normal C functions can read.

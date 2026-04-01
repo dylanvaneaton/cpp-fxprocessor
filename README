@@ -1,0 +1,19 @@
+## Description
+This is an effects processor for the currently titled fx-thing I am working on. It is (will eventually be) a node based audio effect processing engine meant to run on a standalone device, but is currently meant to use USB audio interfaces for physical interface through JACK.
+
+## Dependencies
+```
+cmake
+ninja
+clang
+jack2
+```
+
+## Building
+Initialize build files
+`cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug`
+Build
+`cmake --build build`
+
+## Running
+`./build/cpp-fxprocessor
