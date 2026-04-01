@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/dylan/projects/cpp-fxprocessor/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

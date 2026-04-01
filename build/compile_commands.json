@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/dylan/projects/cpp-fxprocessor/build",
+  "command": "/usr/sbin/c++ -I/home/dylan/projects/cpp-fxprocessor/include -isystem /usr/include/lilv-0 -isystem /usr/include/sratom-0 -isystem /usr/include/sord-0 -isystem /usr/include/serd-0 -isystem /usr/include/zix-0 -g -std=gnu++20 -fsanitize=undefined -g -D_REENTRANT -o CMakeFiles/cpp-fxprocessor.dir/src/main.cpp.o -c /home/dylan/projects/cpp-fxprocessor/src/main.cpp",
+  "file": "/home/dylan/projects/cpp-fxprocessor/src/main.cpp",
+  "output": "/home/dylan/projects/cpp-fxprocessor/build/CMakeFiles/cpp-fxprocessor.dir/src/main.cpp.o"
+}
+]
