@@ -1,9 +1,0 @@
-# ninja log v7
-0	34	1775015843519585185	CMakeFiles/cpp-fxprocessor.dir/src/main.cpp.o	3ab9a46fb208eda
-34	68	1775015843553827807	cpp-fxprocessor	71c26714907ea430
-0	20	1775016335135320744	build.ninja	91e555dba4a984de
-0	20	1775016335135320744	/home/dylan/projects/cpp-fxprocessor/build/cmake_install.cmake	91e555dba4a984de
-0	33	1775016335138320744	CMakeFiles/cpp-fxprocessor.dir/src/main.cpp.o	3a9ffe56ca643217
-33	66	1775016335171320746	cpp-fxprocessor	3c278fa356a3d7
-1	280	1775024443735929499	CMakeFiles/cpp-fxprocessor.dir/src/main.cpp.o	3a9ffe56ca643217
-280	315	1775024444016291948	cpp-fxprocessor	3c278fa356a3d7

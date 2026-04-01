@@ -1,3 +1,0 @@
-/home/dylan/projects/cpp-fxprocessor/build/CMakeFiles/cpp-fxprocessor.dir
-/home/dylan/projects/cpp-fxprocessor/build/CMakeFiles/edit_cache.dir
-/home/dylan/projects/cpp-fxprocessor/build/CMakeFiles/rebuild_cache.dir

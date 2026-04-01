@@ -1,0 +1,35 @@
+# Build output
+build/
+out/
+
+# CMake generated files in root
+compile_commands.json
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+
+# Compiled binaries and objects
+*.o
+*.a
+*.so
+*.out
+
+# Sanitizer and debug artifacts
+*.dSYM/
+
+# VSCode — keep .vscode/ but ignore local-only files
+.vscode/settings.json.local
+.cache/
+
+# Clangd index
+.cache/
+.clangd/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backup files from editors
+*~
+*.swp
+*.swo
