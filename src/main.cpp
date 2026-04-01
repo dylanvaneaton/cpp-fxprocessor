@@ -5,10 +5,19 @@
 #include <unistd.h>
 #include <vector>
 
+#include "FxChain.hpp"
+#include "nodes/ConstantNode.hpp"
+#include "nodes/GainNode.hpp"
+#include "nodes/ReverbNode.hpp"
+
 jack_client_t *client = nullptr;
 jack_port_t *in_port = nullptr;
 jack_port_t *out_port_l = nullptr;
 jack_port_t *out_port_r = nullptr;
+
+// Declare FxChain globally so it lives as long as the program does and is accessible from the
+// callback.
+FxChain chain;
 
 int process(jack_nframes_t nframes, void *) {
     // jack_port_get_buffer returns a void* to the audio buffer for that port, and we cast it to a
@@ -20,12 +29,15 @@ int process(jack_nframes_t nframes, void *) {
     auto *out_l = (float *)jack_port_get_buffer(out_port_l, nframes);
     auto *out_r = (float *)jack_port_get_buffer(out_port_r, nframes);
 
+    // Run the node chain. Audio in, processed audio out.
+    chain.process(in, out_l, nframes);
+
+    // Currently copying the out_l to out_r to send the mono signal to both channels.
     // std::memcpy copies raw bytes from a source to a destination. In the third param,
     // sizeof(float) is the size of a float in bytes which is 4, and nframes is the buffer size
     // (256). This means that each buffer contains 1024 bytes of data, and we have to specify to
     // memcpy that this is the exact amount of data we want to copy.
-    std::memcpy(out_l, in, sizeof(float) * nframes);
-    std::memcpy(out_r, in, sizeof(float) * nframes);
+    std::memcpy(out_r, out_l, sizeof(float) * nframes);
 
     return 0;
 }
@@ -109,6 +121,7 @@ int main() {
     // Playback ports are physical inputs.
     auto playback_ports = get_port_list(client, JackPortIsPhysical | JackPortIsInput);
 
+    // Exit if missing or not enough ports.
     if (capture_ports.empty()) {
         fprintf(stderr, "No capture ports found.\n");
         jack_client_close(client);
@@ -125,6 +138,31 @@ int main() {
     int in_choice = prompt_choice("Select input port:", capture_ports);
     int out_choice_l = prompt_choice("Select left output port:", playback_ports);
     int out_choice_r = prompt_choice("Select right output port:", playback_ports);
+
+    // Here we build the node chain. We use std::make_unique<Node> to make it on the heap, then we
+    // use std::move to move the pointer for it into the FxChain.
+
+    // Create a constant node with values 0.7f
+    auto constant = std::make_unique<ConstantNode>();
+    constant->constant = 0.3f;
+
+    // Get a raw pointer to the constant before moving it. .get() returns a raw pointer without
+    // transferring ownership.
+    ConstantNode *constant_ptr = constant.get();
+
+    // Move constant node into the chains list of control nodes.
+    chain.add_control_node(std::move(constant));
+
+    // Create a reverb with 70% wet.
+    auto reverb = std::make_unique<ReverbNode>();
+    reverb->mix_source = constant_ptr;
+
+    // Move Reverb node into the fx chain.
+    chain.add_audio_node(std::move(reverb));
+
+    // Prepare chain. Allocates internal buffers and forwards prepare() to all nodes. Must happen
+    // after building the chain and before activating JACK.
+    chain.prepare(jack_get_sample_rate(client), jack_get_buffer_size(client));
 
     // This sets the process function as the callback. The third param is the void pointer on the
     // input of the process function. You point it at your own data for the callback if that's
